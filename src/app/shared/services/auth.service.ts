@@ -11,18 +11,17 @@ import { Store } from '@ngrx/store';
 import { setSession } from '../ngrx/auth/auth.actions';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private subscription!: Subscription;
   private _session: AuthSession | null = null;
 
   get session() {
-    this.supabaseService.supabaseAuth.getSession().then(({ data }) => {
-      console.log(data);
-      this._session = data.session
-    })
-    return this._session
+    this.supabaseService.supabaseAuth.getSession().then(({data}) => {
+      this._session = data.session;
+    });
+    return this._session;
   }
 
   constructor(
@@ -30,10 +29,18 @@ export class AuthService {
     private store: Store,
   ) {
     this.onAuthStateChange((event: string, session: AuthSession) => {
-      this.store.dispatch(setSession({
-        session
-      }))
-    })
+      if (event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED') {
+        this.store.dispatch(setSession({
+          session,
+        }));
+      }
+
+      if (event === 'SIGNED_OUT') {
+        this.store.dispatch(setSession({
+          session: null,
+        }));
+      }
+    });
   }
 
   onAuthStateChange(callback: any) {
@@ -53,33 +60,33 @@ export class AuthService {
     return from(
       this.supabaseService.supabaseAuth.signInWithPassword({
         email,
-        password
-      })
+        password,
+      }),
     ).pipe(
       map(res => {
-        if(res?.error) {
-          throw res?.error
+        if (res?.error) {
+          throw res?.error;
         }
 
-        return res.data
-      })
-    )
+        return res.data;
+      }),
+    );
   }
 
   signup(email: string, password: string): Observable<User> {
     return from(
       this.supabaseService.supabaseAuth.signUp({
         email,
-        password
-      })
+        password,
+      }),
     ).pipe(
       map((res: AuthResponse) => {
         if (res?.error) {
-          throw res.error
+          throw res.error;
         }
 
-        return res.data.user as User
-      })
-    )
+        return res.data.user as User;
+      }),
+    );
   }
 }

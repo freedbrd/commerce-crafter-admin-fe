@@ -53,7 +53,7 @@ export class AuthEffects {
     switchMap(({password, email}) => {
       return this.authService.login(email, password).pipe(
         map((res) => {
-          console.log(res);
+          this.router.navigate(['/'])
           return setSession({session: res.session})
         }),
         catchError((err: AuthError) => {

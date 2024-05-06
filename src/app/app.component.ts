@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Session } from '@supabase/supabase-js';
+import { Store } from '@ngrx/store';
+import { sessionSelector } from './shared/ngrx/auth/auth.selectors';
+import { SupabaseService } from './shared/services/supabase.service';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +15,9 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'commerce-crafter-admin-fe';
+  session$: Observable<Session>;
+
+  constructor(private store: Store, private sp: SupabaseService) {
+    this.session$ = store.select(sessionSelector)
+  }
 }

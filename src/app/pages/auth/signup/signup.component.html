@@ -1,0 +1,56 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzErrorTip="Please input your name!">
+      <input nz-input formControlName="name" placeholder="Name" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>E-mail</nz-form-label>
+    <nz-form-control [nzSpan]="12" [nzErrorTip]="emailErrorTpl">
+      <input nz-input formControlName="email" placeholder="E-Mail" type="email" />
+      <ng-template #emailErrorTpl let-control>
+        @if (control.errors?.['required']) {
+          Please input your email!
+        }
+        @if (control.errors?.['email']) {
+          Input correct E-Mail!
+        }
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzDisableAutoTips [nzErrorTip]="passwordErrorTpl">
+      <input nz-input type="password" formControlName="password" (ngModelChange)="validateConfirmPassword()" />
+      <ng-template #passwordErrorTpl let-control>
+        @if (control.errors?.['required']) {
+          Please input your password!
+        }
+        @if (control.errors?.['minlength']) {
+          Min password length is {{control.errors?.['minlength']?.requiredLength}}
+        }
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Confirm Password</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzDisableAutoTips [nzErrorTip]="confirmPasswordErrorTpl">
+      <input nz-input type="password" formControlName="confirm" placeholder="confirm your password" />
+      <ng-template #confirmPasswordErrorTpl let-control>
+        @if (control.errors?.['required']) {
+          Please confirm your password!
+        }
+        @if (control.errors?.['confirm']) {
+          Password is inconsistent!
+        }
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="form.invalid">Submit</button> Or
+      <a routerLink="/auth">Log In</a>
+    </nz-form-control>
+  </nz-form-item>
+</form>

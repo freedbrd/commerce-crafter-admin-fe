@@ -11,6 +11,7 @@
   </div>
   <nz-table #table
             *nzSpaceItem
+            [nzLoading]="loading$ | async"
             [nzData]="businessProfiles$ | async">
     <thead>
     <tr>
@@ -29,10 +30,18 @@
       <td>{{ data.url || '-' }}</td>
       <td class="center">
         <span class="cursor-pointer"
+              nz-dropdown
+              [nzDropdownMenu]="menu"
               style="font-size: 20px;"
               nz-icon
               nzType="more"
               nzTheme="outline"></span>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>Edit</li>
+            <li nz-menu-item (click)="delete(data)">Delete</li>
+          </ul>
+        </nz-dropdown-menu>
       </td>
     </tr>
     </tbody>

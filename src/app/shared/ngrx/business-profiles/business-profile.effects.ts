@@ -4,11 +4,13 @@ import {
   createBusinessProfileFailure,
   createBusinessProfileRequest,
   createBusinessProfileSuccess,
+  deleteBusinessProfileFailure,
+  deleteBusinessProfileRequest, deleteBusinessProfileSuccess,
   getListFailure,
   getListRequest,
   getListSuccess,
 } from './business-profile.actions';
-import { catchError, map, switchMap, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import {
   BusinessProfileService
 } from '../../services/business-profile.service';
@@ -65,6 +67,34 @@ export class BusinessProfileEffects {
 
       this.nzNotificationService.error('Error', error.message || 'Something went wrong')
     })
+  ), { dispatch: false });
+
+  deleteBusinessProfile$ = createEffect(() => this.actions$.pipe(
+      ofType(deleteBusinessProfileRequest),
+      switchMap(({ businessProfileId }) => {
+        return this.businessProfileService.deleteBusinessProfile(businessProfileId).pipe(
+            map((res) => {
+              if (res.error) {
+                return deleteBusinessProfileFailure({
+                  error: res.error
+                });
+              }
+
+              this.nzNotificationService.success('Success', 'Business profile is deleted!');
+
+              return deleteBusinessProfileSuccess({ businessProfileId });
+            }),
+            catchError((error) => of(deleteBusinessProfileFailure({ error })))
+        );
+      })
+  ));
+
+  deleteBusinessProfileFailure$ = createEffect(() => this.actions$.pipe(
+      ofType(deleteBusinessProfileFailure),
+      tap(({ error }) => {
+        console.error('Error:', error);
+        this.nzNotificationService.error('Error', error.message || 'Something went wrong');
+      })
   ), { dispatch: false });
 
   constructor(

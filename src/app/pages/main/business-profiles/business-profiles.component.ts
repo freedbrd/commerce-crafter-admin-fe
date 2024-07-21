@@ -2,24 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ZorroModule } from '../../../shared/modules/zorro/zorro.module';
 import {
-  IBusinessProfile
+  IBusinessProfile,
 } from '../../../shared/interfaces/business-profile.interface';
 import {
-  BusinessProfileTypeEnum
+  BusinessProfileTypeEnum,
 } from '../../../shared/enums/business-profile-type.enum';
 import {
-  BusinessProfileTypePipe
+  BusinessProfileTypePipe,
 } from '../../../shared/pipe/business-profile-type.pipe';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import {
-  BusinessProfileModalComponent
+  BusinessProfileModalComponent,
 } from './components/business-profile-modal/business-profile-modal.component';
 import { select, Store } from '@ngrx/store';
 import {
-  getListRequest
+  deleteBusinessProfileRequest,
+  getListRequest,
 } from '../../../shared/ngrx/business-profiles/business-profile.actions';
 import {
-  getAllBusinessProfiles
+  businessProfileLoading,
+  getAllBusinessProfiles,
 } from '../../../shared/ngrx/business-profiles/business-profile.selectors';
 import { Observable } from 'rxjs';
 
@@ -32,32 +34,22 @@ import { Observable } from 'rxjs';
     BusinessProfileTypePipe,
   ],
   templateUrl: './business-profiles.component.html',
-  styleUrl: './business-profiles.component.scss'
+  styleUrl: './business-profiles.component.scss',
 })
 export class BusinessProfilesComponent implements OnInit {
   businessProfiles$: Observable<IBusinessProfile[]>;
-
-  dataSet: IBusinessProfile[] = [
-    {
-      id: '123',
-      user_id: '123',
-      created_at: new Date(),
-      title: 'Barber Shop',
-      type: BusinessProfileTypeEnum.RETAIL,
-      is_active: true,
-      url: 'http://localhost',
-    }
-  ];
+  loading$: Observable<boolean>;
 
   constructor(
     private nzModalService: NzModalService,
-    private store: Store
+    private store: Store,
   ) {
     this.businessProfiles$ = this.store.pipe(select(getAllBusinessProfiles));
+    this.loading$ = this.store.pipe(select(businessProfileLoading));
   }
 
   ngOnInit() {
-    this.store.dispatch(getListRequest())
+    this.store.dispatch(getListRequest());
   }
 
   createBusinessProfile(): void {
@@ -66,6 +58,11 @@ export class BusinessProfilesComponent implements OnInit {
       nzOkText: 'Create',
       nzFooter: null,
       nzContent: BusinessProfileModalComponent,
-    })
+    });
+  }
+
+  delete(businessProfile: IBusinessProfile) {
+    this.store.dispatch(
+      deleteBusinessProfileRequest({businessProfileId: businessProfile.id}));
   }
 }

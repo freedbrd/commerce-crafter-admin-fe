@@ -24,4 +24,10 @@ export class BusinessProfileService {
       this.supabaseService.supabase.from('business_profiles').insert(businessProfile).select('*')
     )
   }
+
+  deleteBusinessProfile(businessProfileId: string) {
+    return from(
+      this.supabaseService.supabase.from('business_profiles').delete().eq('id', businessProfileId)
+    )
+  }
 }

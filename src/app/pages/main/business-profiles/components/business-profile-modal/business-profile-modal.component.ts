@@ -24,6 +24,7 @@ import {
   businessProfileLoading,
 } from '../../../../../shared/ngrx/business-profiles/business-profile.selectors';
 import { filter, Observable, Subject, take, takeUntil } from 'rxjs';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-business-profile-modal',
@@ -58,7 +59,7 @@ export class BusinessProfileModalComponent implements OnInit, OnDestroy {
     private nzModalRef: NzModalRef,
     private fb: FormBuilder,
     private store: Store,
-    private actions$: ActionsSubject,
+    private actions$: Actions,
   ) {
   }
 
@@ -66,7 +67,8 @@ export class BusinessProfileModalComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.actions$.pipe(
-      filter(action => action.type === createBusinessProfileSuccess.type),
+      ofType(createBusinessProfileSuccess),
+      take(1),
       takeUntil(this.destroy$),
     ).subscribe(() => {
       this.close();

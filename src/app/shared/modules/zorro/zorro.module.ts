@@ -11,7 +11,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 @NgModule({
   exports: [
@@ -27,6 +27,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzModalModule,
     NzSelectModule,
     NzAlertModule,
+    NzDropDownModule,
   ],
   imports: [
     NzFormModule,
@@ -40,7 +41,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzSpaceModule,
     NzModalModule,
     NzSelectModule,
-    NzAlertModule
+    NzAlertModule,
+    NzDropDownModule,
   ]
 })
 export class ZorroModule { }

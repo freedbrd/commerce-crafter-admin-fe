@@ -33,11 +33,11 @@ export class AuthEffects {
   signupSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(signupSuccess),
     switchMap(({user, name}) => {
-      return this.supabaseService.insert('profiles', {
+      return this.supabaseService.supabase.from('profiles').insert({
         name,
         user_id: user.id,
         email: user.email,
-      });
+      })
     }),
     tap(() => {
       this.router.navigate(['/auth']);

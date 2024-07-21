@@ -1,1 +1,40 @@
-<p>business-profiles works!</p>
+<nz-space [nzSize]="15"
+          style="width: 100%;"
+          nzDirection="vertical">
+  <div *nzSpaceItem
+       class="buttons jc-fe ai-c">
+    <button nz-button
+            nzType="primary"
+            (click)="createBusinessProfile()"
+            type="button">Create business profile
+    </button>
+  </div>
+  <nz-table #table
+            *nzSpaceItem
+            [nzData]="businessProfiles$ | async">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>Url</th>
+      <th nzWidth="80px">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of table.data">
+      <td>{{ data.title }}</td>
+      <td>{{ data.type | businessProfileType }}</td>
+      <td>{{ data.is_active ? 'Active' : 'Inactive' }}</td>
+      <td>{{ data.url || '-' }}</td>
+      <td class="center">
+        <span class="cursor-pointer"
+              style="font-size: 20px;"
+              nz-icon
+              nzType="more"
+              nzTheme="outline"></span>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-space>

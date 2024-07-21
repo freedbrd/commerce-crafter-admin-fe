@@ -6,6 +6,12 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+
 
 @NgModule({
   exports: [
@@ -16,6 +22,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,
+    NzTableModule,
+    NzSpaceModule,
+    NzModalModule,
+    NzSelectModule,
+    NzAlertModule,
   ],
   imports: [
     NzFormModule,
@@ -25,6 +36,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,
+    NzTableModule,
+    NzSpaceModule,
+    NzModalModule,
+    NzSelectModule,
+    NzAlertModule
   ]
 })
 export class ZorroModule { }

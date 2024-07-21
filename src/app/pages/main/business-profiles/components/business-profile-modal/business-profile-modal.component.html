@@ -1,0 +1,44 @@
+<form nz-form
+      (ngSubmit)="submit()"
+      [formGroup]="form">
+  <div class="loading"></div>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input the business profile name">
+      <input formControlName="title"
+             type="text"
+             nz-input
+             placeholder="Business Profile Name"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please select the business type">
+      <nz-select formControlName="type"
+                 nzPlaceHolder="Select the business type">
+        @for (option of options; track option.lable) {
+          <nz-option [nzValue]="option.value"
+                     [nzLabel]="option.lable"></nz-option>
+        }
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <div nz-col
+         nzSpan="24">
+      <nz-alert nzType="info"
+                [nzMessage]="form.get('type').value | typeInfo"></nz-alert>
+    </div>
+  </nz-form-item>
+  <div class="modal-buttons">
+    <button nz-button
+            (click)="close()"
+            nzType="default"
+            type="button">Cancel
+    </button>
+    {{isLoading$ | async}}
+    <button nz-button
+            type="submit"
+            [disabled]="form.invalid || (isLoading$ | async)"
+            nzType="primary">Create <span *ngIf="isLoading$ | async" nz-icon nzType="loading" nzTheme="outline"></span>
+    </button>
+  </div>
+</form>

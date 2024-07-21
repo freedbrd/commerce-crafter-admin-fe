@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+.buttons {
+  display: flex;
+  gap: 10px;
+
+  &.jc-fe {
+    justify-content: flex-end;
+  }
+
+  &.ai-c {
+    align-items: center;
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20px;
+}
